@@ -167,7 +167,8 @@
       });
       const data = await res.json();
       document.getElementById('thinking')?.remove();
-      const reply = data.content?.find(b => b.type === 'text')?.text || 'Sin respuesta.';
+      if (data.error) { addMsg('bot', 'Error API: ' + JSON.stringify(data.error)); return; }
+const reply = data.content?.find(b => b.type === 'text')?.text || 'Sin datos: ' + JSON.stringify(data).slice(0,300);
       history.push({ role: 'assistant', content: reply });
       addMsg('bot', reply.replace(/\n/g, '<br>'));
     } catch (e) {
